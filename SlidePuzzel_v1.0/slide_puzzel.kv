@@ -1,0 +1,180 @@
+
+		
+ScreenManager:
+	Main:
+		name: 'main'
+		MDToolbar:
+			id: tool
+			#spacing: dp(40)
+			size_hint_y: .1
+			left_action_items: [['information-outline', lambda x: app.about_me.open()]]
+			right_action_items:
+				[[app.grid_icon[0], lambda x: app.callback(4)], ["",lambda x:x],
+				[app.grid_icon[1], lambda x: app.callback(5)],["",lambda x:x], 
+				[app.grid_icon[2], lambda x: app.callback(6)],["",lambda x:x],
+				["image",lambda x: app.got_to_image_seletion(tool)]]	
+
+		CustLabel:
+			text: 'SLIDEPUZZEL'
+			pos_hint: {'center_x': 0.60, 'center_y': .05}
+
+		CustLabel:
+			text: '4x4'
+			pos_hint: {'center_x': .90, 'center_y': .05}
+
+		CustLabel:
+			text: '5x5'
+			pos_hint: {'center_x': 1.06, 'center_y': .05}
+
+		CustLabel:
+			text: '6x6'
+			pos_hint: {'center_x': 1.22, 'center_y': .05}
+
+	Playground:
+		name: 'playground'
+
+	ImageSelection:
+		name: "image_selection"
+
+<CustLabel@MDLabel>:
+	#font_name: f"{app.path}/data/font/brocha.otf"
+	theme_text_color: 'Custom'
+	text_color: 1,1,1,1
+	font_size: '14dp'
+	bold: True	
+
+
+<CustButton@MDFillRoundFlatButton>:
+	font_size: '25dp'
+	bold: True
+	md_bg_color: .2, .5, .7, 1
+	size_hint: None, None
+	size: self.size
+
+<Tile>:
+	size_hint: None, None
+	canvas.before:
+		Color:
+			rgb: 1,1,1
+		RoundedRectangle:
+			radius: root.radius
+			size: self.size
+			pos: self.pos
+			source: root.image
+	Label:
+		text: root.label
+		color: 1,1,1,1		
+		pos: root.x , root.y 
+
+<IconButton@MDIconButton>:
+	theme_text_color: "Custom"
+	text_color: app.theme_cls.primary_color
+	font_size: "20dp"
+
+<ImageViewBox@Widget>:
+	move: 0
+	image: ""
+	pos: 0,0
+	canvas.before:
+		Color:
+			rgb: 1,1,1
+		RoundedRectangle:
+			radius: [5]
+			size: 135, 135
+			pos: self.pos[0], self.pos[1]
+		RoundedRectangle:
+			radius: [5]
+			size: 130, 130
+			source: self.image	
+			pos: self.pos[0]+2.5, self.pos[1]+2.5
+
+	
+<Playground>:
+	board:board
+	FloatLayout:		
+		canvas:
+			Color:
+				rgb: .3, .4, .5
+			Rectangle:
+				size: self.size
+				pos: self.pos
+				source: app.background_image
+
+	FloatLayout:
+		size_hint: None, None
+		id: board		
+		canvas:
+			Color:
+				rgb: .5, .3, .5
+			RoundedRectangle:
+				radius: [6]
+				size: self.size
+				pos: self.pos
+
+	ImageViewBox:
+		image: root.image
+		pos: root.width * .74, root.height * .64			
+
+	IconButton:
+		icon: "volume-high"
+		pos_hint: {'center_x': .95, 'center_y': .55}
+		on_release: root.on_volume_icon(self)
+
+	IconButton:
+		icon: "edge"
+		pos_hint: {'center_x': .95, 'center_y': .25}
+		on_release: root.on_shuffle_call()			
+
+	IconButton:
+		icon: "arrow-right-bold-circle-outline"
+		pos_hint: {'center_x': .95, 'center_y': .10}
+		on_release: app.quit_session()
+
+	CustLabel:
+		text: "moves:  " + str(root.moves)
+		font_size: dp(12)
+		pos_hint: {'center_x': .55, 'center_y': .03}
+
+
+
+
+<ScrollableImages>:
+	cols:3		
+	adaptive_height: True
+	padding: dp(10)
+	spacing: dp(10)
+
+	
+
+
+<ImageSelection>:
+	ScrollView:
+		ScrollableImages:
+
+
+
+<IconTextBtn@MDFillRoundFlatIconButton>:
+	icon: "grid"
+	font_size: "20dp"
+	bold: True
+	size_hint: None, .32
+    increment_width: "60dp"
+
+
+	
+<Main>:
+	FloatLayout:
+		canvas:
+			Color:
+				rgba: 1,1,1,1
+			Rectangle:
+				size: self.size
+				pos: self.pos
+				source: root.background_image
+			Color:
+				rgba: 0, .5, 1, 1
+			Rectangle:
+				size: self.size
+				source: app.path+"/grid.png"
+
+		
